@@ -5,7 +5,9 @@ const app = express();
 app.use(express.json());
 
 app.get('/search', (req, res) => {
-    res.send("Check now");
+    return res.status(200).json({
+        message: "Docker connected succesfully"
+    })
 })
 
 export default app;
