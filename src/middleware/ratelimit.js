@@ -1,4 +1,4 @@
-import { redis } from "../../app";
+import { redis } from "../../app.js";
 
 const rateLimitter = async(req,res,next) => {
   const ip = req.ip;

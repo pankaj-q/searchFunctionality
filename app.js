@@ -1,7 +1,10 @@
 import express from 'express'
-import rateLimitter from './src/middleware/ratelimit.js';
+import rateLimitter from './src/middleware/ratelimit.js'
+import sendEmail from './src/config/sendEmail.js';
+import Redis from 'ioredis';
 
 import searchRouter from './/src/route/searchRoute.js'
+import emailQueue from './worker.js';
 const app = express();
 
 export const redis = new redis(process.env.REDIS_URL);
@@ -14,6 +17,7 @@ app.post('/create', async(req, res) => {
     const user = await user.create({
         name, email, password
     })
+    await emailQueue.add("send-email",{email})
     return res.json(user);
 }) 
 
@@ -21,7 +25,7 @@ app.get('/search',rateLimitter, (req, res) => {
     return res.status(200).json({
         message: "Docker connected succesfully"
     })
-app.use('/api', searchRouter);
+
 })
 
 app.get('/get-with-redis', async (req, res) => {
