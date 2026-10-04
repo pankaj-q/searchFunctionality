@@ -9,3 +9,30 @@ services:
       - 8001:80
      volumes: 
       - ./Nginx/nginx.conf:/etc/nginx/nginx/conf
+
+   server1:
+     build: /src
+     env_file:
+      - ./server/.env
+     environment: 
+       - Server_Name: "pahla server"
+     ports:
+      - 5001:7000
+     
+   server2:
+     build: /src
+     env_file:
+      - ./server/.env
+     environment: 
+       - Server_Name: "second server"
+     ports:
+      - 5002:7000
+
+   server3:
+     build: /src
+     env_file:
+      - ./server/.env
+     environment: 
+       - Server_Name: "third server"
+     ports:
+      - 5003:7000
